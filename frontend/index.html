@@ -1,56 +1,32 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kiropay</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiropay</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-
-    <!-- تسجيل الدخول -->
-    <div id="loginDiv">
-      <h2>تسجيل الدخول</h2>
-      <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
-      <input type="password" id="loginPassword" placeholder="كلمة المرور" required>
-      <button id="loginBtn">تسجيل الدخول</button>
-      <p>أو <span id="showSignup">إنشاء حساب جديد</span></p>
-    </div>
-
-    <!-- إنشاء حساب -->
-    <div id="signupDiv" style="display:none;">
-      <h2>إنشاء حساب</h2>
-      <input type="text" id="signupName" placeholder="الاسم" required>
-      <input type="text" id="signupFamily" placeholder="اسم الأسرة" required>
-      <input type="email" id="signupEmail" placeholder="البريد الإلكتروني" required>
-      <input type="password" id="signupPassword" placeholder="كلمة المرور" required>
-      <input type="file" id="signupImage">
-      <button id="signupBtn">إنشاء حساب</button>
-      <p>أو <span id="showLogin">تسجيل الدخول</span></p>
-    </div>
-
-    <!-- لوحة التحكم -->
-    <div id="dashboard" style="display:none;">
-      <h2>Kiropay Dashboard</h2>
-      <div id="userCard">
-        <img id="userImage" src="images/default.jpg" alt="User Image">
-        <h3 id="userFullName"></h3>
-        <p>الرصيد: <span id="userBalance"></span></p>
-      </div>
-
-      <div id="adminPanel" style="display:none;">
-        <h3>لوحة الادمن</h3>
-        <input type="text" id="searchUser" placeholder="بحث عن مستخدم">
-        <button id="searchBtn">بحث</button>
-        <div id="searchResults"></div>
-      </div>
-
-      <button id="logoutBtn">تسجيل خروج</button>
-    </div>
-
+<div class="container">
+  <div id="auth">
+    <h2>Sign Up / Login</h2>
+    <input type="text" id="name" placeholder="First Name">
+    <input type="text" id="family_name" placeholder="Family Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button id="signupBtn">Sign Up</button>
+    <button id="loginBtn">Login</button>
   </div>
 
-  <script src="app.js"></script>
+  <div id="dashboard" style="display:none">
+    <div class="card">
+      <img src="images/default.jpg" alt="User" class="card-img">
+      <h2 id="userFullName"></h2>
+      <p id="balance"></p>
+    </div>
+    <button id="logoutBtn">Logout</button>
+  </div>
+</div>
+<script src="app.js"></script>
 </body>
 </html>
