@@ -1,56 +1,112 @@
-const loginForm = document.getElementById("login-form");
-const signupForm = document.getElementById("signup-form");
-const dashboard = document.getElementById("dashboard");
-const loginBtn = document.getElementById("login-btn");
+const apiUrl = "/api/users";
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const nameInput = document.getElementById("name");
+const familyInput = document.getElementById("family_name");
+
 const signupBtn = document.getElementById("signup-btn");
+const loginBtn = document.getElementById("login-btn");
 const logoutBtn = document.getElementById("logout-btn");
+
+const dashboard = document.getElementById("dashboard");
+const authSection = document.getElementById("auth-section");
+
+const userName = document.getElementById("user-name");
+const userFamily = document.getElementById("user-family");
+const userBalance = document.getElementById("user-balance");
+const cardImg = document.getElementById("card-img");
+
+const adminSection = document.getElementById("admin-section");
+const amountInput = document.getElementById("amount");
+const userIdInput = document.getElementById("userId");
+const addBalanceBtn = document.getElementById("add-balance-btn");
+const removeBalanceBtn = document.getElementById("remove-balance-btn");
+const deleteUserBtn = document.getElementById("delete-user-btn");
 
 let currentUser = null;
 
-async function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  
-  const res = await fetch(`/api/users`, { method: "GET" });
-  const users = await res.json();
-  const user = users.find(u => u.email === email && u.password === password);
-  
-  if (!user) return alert("خطأ في البريد أو كلمة السر");
-  currentUser = user;
-  showDashboard();
-}
-
-async function signup() {
-  const name = document.getElementById("name").value;
-  const family = document.getElementById("family").value;
-  const email = document.getElementById("signup-email").value;
-  const password = document.getElementById("signup-password").value;
-  const imageFile = document.getElementById("image").files[0];
-  
-  let imageUrl = "images/default.jpg";
-  if (imageFile) imageUrl = URL.createObjectURL(imageFile);
-  
-  const res = await fetch(`/api/users`, {
+// Signup
+signupBtn.onclick = async () => {
+  const res = await fetch(apiUrl + "/create", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "create", name, family, email, password, image: imageUrl })
+    body: JSON.stringify({
+      name: nameInput.value,
+      family_name: familyInput.value,
+      email: emailInput.value,
+      balance: 0,
+      isAdmin: false
+    })
   });
-  alert("تم إنشاء الحساب");
-  signupForm.style.display = "none";
-  loginForm.style.display = "block";
-}
+  const data = await res.json();
+  alert(data.message);
+};
 
-function showDashboard() {
-  loginForm.style.display = "none";
-  signupForm.style.display = "none";
-  dashboard.style.display = "block";
+// Login
+loginBtn.onclick = async () => {
+  const res = await fetch(apiUrl);
+  const users = await res.json();
+  const user = users.find(u => u.email === emailInput.value);
+
+  if (!user) return alert("المستخدم غير موجود!");
   
-  document.getElementById("card-name").innerText = currentUser.name;
-  document.getElementById("card-family").innerText = currentUser.family;
-  document.getElementById("balance").innerText = "الرصيد: " + currentUser.balance;
-  document.getElementById("card-image").src = currentUser.image || "images/default.jpg";
-}
+  currentUser = user;
+  authSection.classList.add("hidden");
+  dashboard.classList.remove("hidden");
 
-loginBtn.addEventListener("click", login);
-signupBtn.addEventListener("click", signup);
-logoutBtn.addEventListener("click", () => location.reload());
+  userName.textContent = user.name;
+  userFamily.textContent = user.family_name;
+  userBalance.textContent = user.balance;
+  cardImg.src = "images/default.jpg";
+
+  if (user.is_admin) adminSection.classList.remove("hidden");
+};
+
+// Logout
+logoutBtn.onclick = () => {
+  currentUser = null;
+  dashboard.classList.add("hidden");
+  authSection.classList.remove("hidden");
+};
+
+// Admin: add balance
+addBalanceBtn.onclick = async () => {
+  const res = await fetch(apiUrl + "/add", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userId: userIdInput.value,
+      amount: Number(amountInput.value),
+      adminEmail: currentUser.email
+    })
+  });
+  const data = await res.json();
+  alert(data.message);
+};
+
+// Admin: remove balance
+removeBalanceBtn.onclick = async () => {
+  const res = await fetch(apiUrl + "/remove", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userId: userIdInput.value,
+      amount: Number(amountInput.value),
+      adminEmail: currentUser.email
+    })
+  });
+  const data = await res.json();
+  alert(data.message);
+};
+
+// Admin: delete user
+deleteUserBtn.onclick = async () => {
+  const res = await fetch(`${apiUrl}/delete/${userIdInput.value}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ adminEmail: currentUser.email })
+  });
+  const data = await res.json();
+  alert(data.message);
+};
