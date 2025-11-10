@@ -1,54 +1,77 @@
-const loginBtn = document.getElementById("loginBtn");
-const signupBtn = document.getElementById("signupBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+const loginBtn = document.getElementById("login-btn");
+const signupBtn = document.getElementById("signup-btn");
+const logoutBtn = document.getElementById("logout-btn");
+const messageDiv = document.getElementById("message");
+
 let currentUser = null;
 
-const API_URL = "/api/users";
-
+// تسجيل دخول
 loginBtn.addEventListener("click", async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "login", email, password })
-  });
-  const data = await res.json();
-  if (data.success) {
-    currentUser = data.user;
+  if (!email || !password) {
+    messageDiv.innerText = "الرجاء إدخال البريد وكلمة المرور";
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/users?email=${email}&password=${password}`);
+    const data = await res.json();
+
+    if (data.length === 0) {
+      messageDiv.innerText = "خطأ: البريد أو كلمة المرور غير صحيحة";
+      return;
+    }
+
+    currentUser = data[0];
     showDashboard();
-  } else {
-    alert(data.message);
+  } catch (err) {
+    messageDiv.innerText = "حدث خطأ أثناء تسجيل الدخول";
+    console.error(err);
   }
 });
 
+// إنشاء حساب
 signupBtn.addEventListener("click", async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const name = prompt("ادخل الاسم");
-  const family = prompt("ادخل اسم العائلة");
+  const name = document.getElementById("name").value;
+  const family = document.getElementById("family").value;
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
 
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "create", name, family, email, password, balance:0, isAdmin:false })
-  });
-  const data = await res.json();
-  if (data.success) alert("تم إنشاء الحساب بنجاح");
-  else alert(data.message);
+  if (!name || !family || !email || !password) {
+    messageDiv.innerText = "الرجاء تعبئة كل الحقول";
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "create", name, family, email, password }),
+    });
+    const data = await res.json();
+    messageDiv.innerText = data.message;
+  } catch (err) {
+    messageDiv.innerText = "حدث خطأ أثناء إنشاء الحساب";
+    console.error(err);
+  }
 });
 
+// تسجيل خروج
 logoutBtn.addEventListener("click", () => {
   currentUser = null;
-  document.getElementById("auth").style.display = "block";
-  document.getElementById("dashboard").style.display = "none";
+  document.getElementById("login-form").style.display = "block";
+  document.getElementById("signup-form").style.display = "none";
+  document.getElementById("user-dashboard").style.display = "none";
 });
 
+// عرض داشبورد المستخدم
 function showDashboard() {
-  document.getElementById("auth").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
-  document.getElementById("cardName").innerText = `${currentUser.name} ${currentUser.family}`;
+  document.getElementById("login-form").style.display = "none";
+  document.getElementById("signup-form").style.display = "none";
+  document.getElementById("user-dashboard").style.display = "block";
+  document.getElementById("card-name").innerText = currentUser.name;
+  document.getElementById("card-family").innerText = currentUser.family;
   document.getElementById("balance").innerText = currentUser.balance;
-  document.getElementById("cardImage").src = "images/default.jpg";
 }
