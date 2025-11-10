@@ -15,11 +15,11 @@ export default async function handler(req, res) {
     }
 
     if (method === "POST" && req.body.action === "create") {
-      const { name, balance } = req.body;
-      await pool.query("INSERT INTO users (name, balance) VALUES ($1, $2)", [
-        name,
-        balance,
-      ]);
+      const { name, familyName, email, balance } = req.body;
+      await pool.query(
+        "INSERT INTO users (name, family_name, email, balance) VALUES ($1, $2, $3, $4)",
+        [name, familyName, email, balance]
+      );
       return res.status(200).json({ message: "User created" });
     }
 
