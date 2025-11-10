@@ -12,15 +12,17 @@
 
   <h1>Kiropay</h1>
 
+  <!-- Auth Section -->
   <div id="auth-section">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <input type="text" id="name" placeholder="Name">
-    <input type="text" id="family_name" placeholder="Family Name">
+    <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+    <input type="password" id="password" placeholder="كلمة المرور" required>
+    <input type="text" id="name" placeholder="الاسم">
+    <input type="text" id="family_name" placeholder="اسم العائلة">
     <button id="signup-btn">إنشاء حساب</button>
     <button id="login-btn">تسجيل دخول</button>
   </div>
 
+  <!-- Dashboard -->
   <div id="dashboard" class="hidden">
     <div class="card">
       <img id="card-img" src="images/default.jpg" alt="User Image">
@@ -31,10 +33,11 @@
 
     <button id="logout-btn">تسجيل خروج</button>
 
+    <!-- Admin Section -->
     <div id="admin-section" class="hidden">
       <h3>Admin Panel</h3>
-      <input type="number" id="amount" placeholder="Amount">
-      <input type="number" id="userId" placeholder="User ID">
+      <input type="number" id="amount" placeholder="المبلغ">
+      <input type="number" id="userId" placeholder="ID المستخدم">
       <button id="add-balance-btn">إضافة رصيد</button>
       <button id="remove-balance-btn">خصم رصيد</button>
       <button id="delete-user-btn">حذف مستخدم</button>
