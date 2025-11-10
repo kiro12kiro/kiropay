@@ -1,7 +1,6 @@
 {
   "name": "kiropay",
   "version": "1.0.0",
-  "main": "api/users.js",
   "scripts": {
     "start": "vercel dev"
   },
