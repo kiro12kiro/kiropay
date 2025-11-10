@@ -1,45 +1,26 @@
 <!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KiroPay</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="container">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kiropay</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>💳 Kiropay Dashboard</h1>
 
-<h1>KiroPay</h1>
+      <div id="status">Loading...</div>
 
-<div id="login-form">
-  <h2>تسجيل دخول</h2>
-  <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
-  <input type="password" id="loginPassword" placeholder="كلمة المرور">
-  <button id="loginBtn" class="green-btn">دخول</button>
-</div>
+      <div class="controls">
+        <input id="search" placeholder="Search user..." />
+        <button onclick="searchUser()">Search</button>
+        <button onclick="getUsers()">Show All</button>
+      </div>
 
-<div id="signup-form">
-  <h2>إنشاء حساب</h2>
-  <input type="text" id="firstName" placeholder="الاسم">
-  <input type="text" id="lastName" placeholder="اسم العائلة">
-  <input type="email" id="signupEmail" placeholder="البريد الإلكتروني">
-  <input type="password" id="signupPassword" placeholder="كلمة المرور">
-  <input type="file" id="avatar">
-  <button id="signupBtn" class="green-btn">إنشاء حساب</button>
-</div>
+      <div id="users"></div>
+    </div>
 
-<div id="wallet" style="display:none;">
-  <h2>محفظتك</h2>
-  <div class="visa-card">
-    <img id="userAvatar" src="default.jpg" alt="Avatar">
-    <p id="userName">اسم المستخدم</p>
-    <p id="userLastName">اسم العائلة</p>
-    <p id="userBalance">الرصيد: 100</p>
-    <button id="logoutBtn" class="red-btn">تسجيل خروج</button>
-  </div>
-</div>
-
-<script src="app.js"></script>
-</div>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
