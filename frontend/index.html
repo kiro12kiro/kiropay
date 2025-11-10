@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
   <title>Kiropay</title>
 </head>
 <body>
   <div id="app">
+    <!-- Login -->
     <div id="login-container">
       <h2>تسجيل دخول</h2>
       <input type="email" id="email" placeholder="البريد الإلكتروني" />
       <input type="password" id="password" placeholder="كلمة المرور" />
       <button id="login-btn">تسجيل دخول</button>
+      <button id="show-signup-btn">إنشاء حساب</button>
     </div>
 
+    <!-- Signup -->
     <div id="signup-container" style="display:none">
       <h2>إنشاء حساب</h2>
       <input type="text" id="name" placeholder="الاسم" />
@@ -22,8 +25,10 @@
       <input type="email" id="signup-email" placeholder="البريد الإلكتروني" />
       <input type="password" id="signup-password" placeholder="كلمة المرور" />
       <button id="signup-btn">إنشاء حساب</button>
+      <button id="back-login-btn">رجوع لتسجيل الدخول</button>
     </div>
 
+    <!-- Dashboard -->
     <div id="dashboard" style="display:none">
       <h2>مرحبا <span id="user-name"></span></h2>
       <div id="card">
@@ -32,10 +37,24 @@
         <p id="card-family"></p>
         <p>الرصيد: <span id="user-balance"></span></p>
       </div>
+
+      <div id="admin-panel" style="display:none">
+        <h3>لوحة الأدمن</h3>
+        <input type="text" id="search-email" placeholder="ابحث بالـ Email" />
+        <button id="search-btn">بحث</button>
+
+        <h4>إضافة/حذف رصيد</h4>
+        <input type="number" id="amount" placeholder="المبلغ" />
+        <button id="add-btn">إضافة رصيد</button>
+        <button id="remove-btn">خصم رصيد</button>
+
+        <h4>حذف مستخدم</h4>
+        <button id="delete-btn">حذف الحساب</button>
+      </div>
+
       <button id="logout-btn">تسجيل خروج</button>
     </div>
   </div>
-
   <script type="module" src="app.js"></script>
 </body>
 </html>
