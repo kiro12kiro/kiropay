@@ -1,8 +1,39 @@
-body { font-family: Arial, sans-serif; background: #f2f2f2; }
-.container { width: 300px; margin: 50px auto; text-align: center; }
-input { display:block; width: 100%; margin: 10px 0; padding: 10px; }
-button { padding: 10px; width: 100%; background: #4CAF50; color: white; border: none; cursor: pointer; }
-button:hover { background: #45a049; }
-.card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-.card img { width: 100%; border-radius: 10px; }
-.card-info { text-align: left; margin-top: 10px; }
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+}
+
+input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 200px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: inline-block;
+}
+
+.card-img {
+  width: 200px;
+  border-radius: 10px;
+}
