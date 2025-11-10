@@ -1,54 +1,69 @@
-const apiUrl = "/api/users";
+const loginBtn = document.getElementById("login-btn");
+const signupBtn = document.getElementById("signup-btn");
+const logoutBtn = document.getElementById("logout-btn");
 
-const signupBtn = document.getElementById("signupBtn");
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+const loginContainer = document.getElementById("login-container");
+const signupContainer = document.getElementById("signup-container");
+const dashboard = document.getElementById("dashboard");
 
-const nameInput = document.getElementById("name");
-const familyNameInput = document.getElementById("family_name");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
+const cardName = document.getElementById("card-name");
+const cardFamily = document.getElementById("card-family");
+const cardBalance = document.getElementById("card-balance");
 
-const authDiv = document.getElementById("auth");
-const dashboardDiv = document.getElementById("dashboard");
-const userFullName = document.getElementById("userFullName");
-const balanceEl = document.getElementById("balance");
+const adminActions = document.getElementById("admin-actions");
 
-signupBtn.addEventListener("click", async () => {
-  const res = await fetch(apiUrl, {
+let currentUser = null;
+
+async function login() {
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  const res = await fetch(`/api/users`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "create",
-      name: nameInput.value,
-      family_name: familyNameInput.value,
-      email: emailInput.value,
-      password: passwordInput.value,
-    }),
+    body: JSON.stringify({ action: "login", email, password }),
   });
-  const data = await res.json();
-  alert(data.message);
-});
 
-loginBtn.addEventListener("click", async () => {
-  const res = await fetch(apiUrl, {
+  const data = await res.json();
+  if (data.error) return alert(data.error);
+  currentUser = data.user;
+
+  showDashboard();
+}
+
+async function signup() {
+  const name = document.getElementById("signup-name").value;
+  const family = document.getElementById("signup-family").value;
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+
+  const res = await fetch(`/api/users`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "login",
-      email: emailInput.value,
-      password: passwordInput.value,
-    }),
+    body: JSON.stringify({ action: "create", name, family, email, password }),
   });
+
   const data = await res.json();
-  if (res.status !== 200) return alert(data.message);
-  authDiv.style.display = "none";
-  dashboardDiv.style.display = "block";
-  userFullName.innerText = `${data.name} ${data.family_name}`;
-  balanceEl.innerText = `Balance: ${data.balance}`;
-});
+  if (data.error) return alert(data.error);
+  alert("User created, please login!");
+}
+
+function showDashboard() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  dashboard.style.display = "block";
+
+  cardName.textContent = currentUser.name;
+  cardFamily.textContent = currentUser.family;
+  cardBalance.textContent = currentUser.balance;
+
+  if (currentUser.isAdmin) adminActions.style.display = "block";
+}
 
 logoutBtn.addEventListener("click", () => {
-  dashboardDiv.style.display = "none";
-  authDiv.style.display = "block";
+  currentUser = null;
+  dashboard.style.display = "none";
+  loginContainer.style.display = "block";
 });
+loginBtn.addEventListener("click", login);
+signupBtn.addEventListener("click", signup);
