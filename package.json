@@ -2,6 +2,7 @@
   "name": "kiropay",
   "version": "1.0.0",
   "description": "Kiropay Web App",
+  "main": "api/users.js",
   "type": "module",
   "scripts": {
     "start": "node api/users.js",
