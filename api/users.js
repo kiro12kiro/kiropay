@@ -6,7 +6,6 @@ const pool = new Pool({
 
 export default async function handler(req, res) {
   const { method } = req;
-
   try {
     if (method === "GET") {
       const result = await pool.query("SELECT * FROM users ORDER BY id ASC");
@@ -14,31 +13,12 @@ export default async function handler(req, res) {
     }
 
     if (method === "POST" && req.body.action === "create") {
-      const { name, family_name, email, password, role, balance } = req.body;
+      const { name, family_name, email, balance } = req.body;
       await pool.query(
-        "INSERT INTO users (name, family_name, email, password, role, balance) VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT (email) DO NOTHING",
-        [name, family_name, email, password, role, balance]
+        "INSERT INTO users (name, family_name, email, balance) VALUES ($1,$2,$3,$4) ON CONFLICT (email) DO NOTHING",
+        [name, family_name, email, balance]
       );
-      return res.status(200).json({ message: "User created" });
-    }
-
-    if (method === "POST" && req.body.action === "login") {
-      const { email, password } = req.body;
-      const result = await pool.query("SELECT * FROM users WHERE email=$1 AND password=$2", [email, password]);
-      if (result.rows.length === 0) return res.status(401).json({ message: "Invalid credentials" });
-      return res.status(200).json(result.rows[0]);
-    }
-
-    if (method === "POST" && req.body.action === "add") {
-      const { userId, amount } = req.body;
-      await pool.query("UPDATE users SET balance = balance + $1 WHERE id = $2", [amount, userId]);
-      return res.status(200).json({ message: "Balance added" });
-    }
-
-    if (method === "DELETE") {
-      const { id } = req.query;
-      await pool.query("DELETE FROM users WHERE id = $1", [id]);
-      return res.status(200).json({ message: "User deleted" });
+      return res.status(200).json({ message: "تم إنشاء الحساب" });
     }
 
     return res.status(405).json({ message: "Method not allowed" });
