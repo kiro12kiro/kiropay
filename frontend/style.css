@@ -1,6 +1,9 @@
 body { font-family: Arial, sans-serif; text-align: center; background: #f0f0f0; }
 #app { margin-top: 50px; }
-.card { background: linear-gradient(to right, #ffdc00, #ffc300); padding: 20px; border-radius: 15px; margin: 20px auto; width: 300px; color: #000; }
+.card { background: #ffc300; padding: 20px; border-radius: 15px; margin: 20px auto; width: 300px; color: #000; position: relative; }
+.card img { width: 100%; border-radius: 15px; }
 button { padding: 10px 20px; margin: 10px; cursor: pointer; border: none; border-radius: 5px; }
 #loginBtn { background-color: #4CAF50; color: white; }
 #logoutBtn { background-color: #f44336; color: white; }
+#addBalanceBtn, #removeBalanceBtn, #deleteUserBtn, #searchBtn { background-color: #2196F3; color: white; }
+input { padding: 5px; margin: 5px; }
