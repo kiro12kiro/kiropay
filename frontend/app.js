@@ -1,59 +1,54 @@
-const loginContainer = document.getElementById("loginContainer");
-const signupContainer = document.getElementById("signupContainer");
-const dashboard = document.getElementById("dashboard");
-const adminPanel = document.getElementById("adminPanel");
-
 const loginBtn = document.getElementById("loginBtn");
 const signupBtn = document.getElementById("signupBtn");
 const logoutBtn = document.getElementById("logoutBtn");
-
-const showSignup = document.getElementById("showSignup");
-const showLogin = document.getElementById("showLogin");
-
-const cardName = document.getElementById("cardName");
-const cardFamily = document.getElementById("cardFamily");
-const cardBalance = document.getElementById("cardBalance");
-
 let currentUser = null;
 
-const API_URL = "/api/users.js";
+const API_URL = "/api/users";
 
-// التبديل بين تسجيل الدخول وإنشاء حساب
-showSignup.addEventListener("click", ()=>{loginContainer.style.display="none";signupContainer.style.display="block";});
-showLogin.addEventListener("click", ()=>{signupContainer.style.display="none";loginContainer.style.display="block";});
-
-// تسجيل دخول
-loginBtn.addEventListener("click", async ()=>{
+loginBtn.addEventListener("click", async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const res = await fetch(API_URL, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({action:"login", email, password})});
+
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "login", email, password })
+  });
   const data = await res.json();
-  if(data.success){currentUser=data.user;showDashboard();} else alert(data.message);
+  if (data.success) {
+    currentUser = data.user;
+    showDashboard();
+  } else {
+    alert(data.message);
+  }
 });
 
-// إنشاء حساب
-signupBtn.addEventListener("click", async ()=>{
-  const name = document.getElementById("name").value;
-  const family = document.getElementById("family").value;
-  const email = document.getElementById("signup-email").value;
-  const password = document.getElementById("signup-password").value;
-  const res = await fetch(API_URL, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({action:"create", name,family,email,password})});
+signupBtn.addEventListener("click", async () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const name = prompt("ادخل الاسم");
+  const family = prompt("ادخل اسم العائلة");
+
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "create", name, family, email, password, balance:0, isAdmin:false })
+  });
   const data = await res.json();
-  if(data.success){alert("تم إنشاء الحساب"); signupContainer.style.display="none"; loginContainer.style.display="block";} else alert(data.message);
+  if (data.success) alert("تم إنشاء الحساب بنجاح");
+  else alert(data.message);
 });
 
-// تسجيل خروج
-logoutBtn.addEventListener("click", ()=>{
-  currentUser=null;dashboard.style.display="none";loginContainer.style.display="block";
+logoutBtn.addEventListener("click", () => {
+  currentUser = null;
+  document.getElementById("auth").style.display = "block";
+  document.getElementById("dashboard").style.display = "none";
 });
 
-// عرض لوحة التحكم
-function showDashboard(){
-  loginContainer.style.display="none";
-  signupContainer.style.display="none";
-  dashboard.style.display="block";
-  cardName.textContent=currentUser.name;
-  cardFamily.textContent=currentUser.family;
-  cardBalance.textContent="الرصيد: "+currentUser.balance;
-  if(currentUser.isAdmin) adminPanel.style.display="block"; else adminPanel.style.display="none";
+function showDashboard() {
+  document.getElementById("auth").style.display = "none";
+  document.getElementById("dashboard").style.display = "block";
+  document.getElementById("cardName").innerText = `${currentUser.name} ${currentUser.family}`;
+  document.getElementById("balance").innerText = currentUser.balance;
+  document.getElementById("cardImage").src = "images/default.jpg";
 }
