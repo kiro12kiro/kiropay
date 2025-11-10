@@ -1,9 +1,10 @@
 import { Pool } from "pg";
 
-const pool = new Pool({
-  connectionString:
-    "postgresql://neondb_owner:npg_jWXHQRi5h0FU@ep-raspy-dew-abfq95qt-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+const pool = global.pool || new Pool({
+  connectionString: process.env.DATABASE_URL,
 });
+
+if (!global.pool) global.pool = pool;
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -16,28 +17,19 @@ export default async function handler(req, res) {
 
     if (method === "POST" && req.body.action === "create") {
       const { name, balance } = req.body;
-      await pool.query("INSERT INTO users (name, balance) VALUES ($1, $2)", [
-        name,
-        balance,
-      ]);
+      await pool.query("INSERT INTO users (name, balance) VALUES ($1, $2)", [name, balance]);
       return res.status(200).json({ message: "User created" });
     }
 
     if (method === "POST" && req.body.action === "add") {
       const { userId, amount } = req.body;
-      await pool.query("UPDATE users SET balance = balance + $1 WHERE id = $2", [
-        amount,
-        userId,
-      ]);
+      await pool.query("UPDATE users SET balance = balance + $1 WHERE id = $2", [amount, userId]);
       return res.status(200).json({ message: "Balance added" });
     }
 
     if (method === "POST" && req.body.action === "remove") {
       const { userId, amount } = req.body;
-      await pool.query("UPDATE users SET balance = balance - $1 WHERE id = $2", [
-        amount,
-        userId,
-      ]);
+      await pool.query("UPDATE users SET balance = balance - $1 WHERE id = $2", [amount, userId]);
       return res.status(200).json({ message: "Balance removed" });
     }
 
