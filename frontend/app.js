@@ -1,69 +1,74 @@
-const apiUrl = '/api/users';
+const loginBtn = document.getElementById("login-btn");
+const signupBtn = document.getElementById("signup-btn");
+const logoutBtn = document.getElementById("logout-btn");
+
+const loginContainer = document.getElementById("login-container");
+const signupContainer = document.getElementById("signup-container");
+const dashboard = document.getElementById("dashboard");
 
 let currentUser = null;
 
-const loginBtn = document.getElementById('login-btn');
-const signupBtn = document.getElementById('signup-btn');
-const logoutBtn = document.getElementById('logout-btn');
-const messageDiv = document.getElementById('message');
+// تسجيل دخول
+loginBtn.addEventListener("click", async () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-loginBtn.addEventListener('click', async () => {
-  const email = document.getElementById('login-email').value;
-  const password = document.getElementById('login-password').value;
-
-  if(!email || !password) { messageDiv.innerText = "ادخل البريد وكلمة السر"; return; }
-
-  const res = await fetch(apiUrl);
-  const users = await res.json();
-  const user = users.find(u => u.email === email && u.password === password);
-
-  if(!user) { messageDiv.innerText = "بيانات غير صحيحة"; return; }
-
-  currentUser = user;
-  messageDiv.innerText = `تم تسجيل الدخول بنجاح!`;
-  showDashboard();
-});
-
-signupBtn.addEventListener('click', async () => {
-  const name = document.getElementById('signup-name').value;
-  const family = document.getElementById('signup-family').value;
-  const email = document.getElementById('signup-email').value;
-  const password = document.getElementById('signup-password').value;
-
-  if(!name || !family || !email || !password) { messageDiv.innerText = "املأ جميع البيانات"; return; }
-
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('family', family);
-  formData.append('email', email);
-  formData.append('password', password);
-  
-  const img = document.getElementById('signup-image').files[0];
-  if(img) formData.append('image', img);
-
-  const res = await fetch(apiUrl, { method: 'POST', body: JSON.stringify({
-    action: 'create', name, family, email, password, balance:100
-  }), headers:{'Content-Type':'application/json'}});
-  
+  const res = await fetch("/api/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "login", email, password }),
+  });
   const data = await res.json();
-  messageDiv.innerText = data.message;
+
+  if (data.success) {
+    currentUser = data.user;
+    showDashboard();
+  } else {
+    alert(data.message);
+  }
 });
 
-logoutBtn.addEventListener('click', () => {
+// إنشاء حساب
+signupBtn.addEventListener("click", async () => {
+  const name = document.getElementById("name").value;
+  const family = document.getElementById("family").value;
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+
+  const res = await fetch("/api/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "create",
+      name,
+      family,
+      email,
+      password,
+    }),
+  });
+  const data = await res.json();
+  if (data.success) {
+    alert("تم إنشاء الحساب بنجاح");
+    loginContainer.style.display = "block";
+    signupContainer.style.display = "none";
+  } else {
+    alert(data.message);
+  }
+});
+
+// تسجيل خروج
+logoutBtn.addEventListener("click", () => {
   currentUser = null;
-  location.reload();
+  dashboard.style.display = "none";
+  loginContainer.style.display = "block";
 });
 
 function showDashboard() {
-  document.getElementById('login-section').style.display = 'none';
-  document.getElementById('signup-section').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-
-  document.getElementById('card-name').innerText = currentUser.name;
-  document.getElementById('card-family').innerText = currentUser.family;
-  document.getElementById('card-balance').innerText = `الرصيد: ${currentUser.balance}`;
-
-  if(currentUser.isAdmin) {
-    document.getElementById('admin-actions').style.display = 'block';
-  }
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  dashboard.style.display = "block";
+  document.getElementById("user-name").textContent = currentUser.name;
+  document.getElementById("card-name").textContent = currentUser.name;
+  document.getElementById("card-family").textContent = currentUser.family;
+  document.getElementById("user-balance").textContent = currentUser.balance;
 }
