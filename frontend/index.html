@@ -1,12 +1,53 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Kiropay</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="container">
+    <h1>Kiropay</h1>
+
+    <div id="auth-section">
+      <div id="signup-form">
+        <h2>إنشاء حساب</h2>
+        <input type="text" id="firstName" placeholder="الاسم">
+        <input type="text" id="lastName" placeholder="اسم العائلة">
+        <input type="email" id="email" placeholder="البريد الإلكتروني">
+        <input type="password" id="password" placeholder="كلمة المرور">
+        <button id="signupBtn">إنشاء حساب</button>
+      </div>
+
+      <div id="login-form">
+        <h2>تسجيل الدخول</h2>
+        <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
+        <input type="password" id="loginPassword" placeholder="كلمة المرور">
+        <button id="loginBtn">تسجيل الدخول</button>
+      </div>
+    </div>
+
+    <div id="dashboard" style="display:none;">
+      <h2 id="welcome"></h2>
+      <div class="visa-card">
+        <p id="cardName">اسم المستخدم</p>
+        <p id="cardFamily">اسم العائلة</p>
+        <p id="cardBalance">الرصيد: 0</p>
+      </div>
+
+      <div id="admin-controls" style="display:none;">
+        <h3>صلاحيات الادمن</h3>
+        <input type="text" id="searchUser" placeholder="بحث عن مستخدم">
+        <input type="number" id="amount" placeholder="المبلغ">
+        <button id="addBalanceBtn">إضافة رصيد</button>
+        <button id="removeBalanceBtn">حذف رصيد</button>
+        <button id="deleteUserBtn">حذف المستخدم</button>
+      </div>
+
+      <button id="logoutBtn">تسجيل خروج</button>
+    </div>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
