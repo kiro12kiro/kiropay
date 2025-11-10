@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kiropay</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Kiropay</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="login-form">
+    <h2>تسجيل دخول</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button id="login-btn">تسجيل دخول</button>
+  </div>
 
-<div id="auth-container">
-  <h2>تسجيل الدخول</h2>
-  <input type="email" id="login-email" placeholder="Email">
-  <input type="password" id="login-password" placeholder="Password">
-  <button onclick="login()">تسجيل دخول</button>
-  
-  <h2>انشاء حساب</h2>
-  <input type="text" id="signup-name" placeholder="First Name">
-  <input type="text" id="signup-family" placeholder="Family Name">
-  <input type="email" id="signup-email" placeholder="Email">
-  <input type="password" id="signup-password" placeholder="Password">
-  <button onclick="signup()">انشاء حساب</button>
-</div>
+  <div id="signup-form">
+    <h2>إنشاء حساب</h2>
+    <input type="text" id="name" placeholder="الاسم الأول">
+    <input type="text" id="family" placeholder="اسم العائلة">
+    <input type="email" id="signup-email" placeholder="Email">
+    <input type="password" id="signup-password" placeholder="Password">
+    <input type="file" id="image">
+    <button id="signup-btn">إنشاء حساب</button>
+  </div>
 
-<div id="dashboard" style="display:none;">
-  <h2>مرحبا <span id="user-name"></span></h2>
-  <img id="user-img" src="images/default.jpg" alt="User Image">
-  <p>الرصيد: <span id="user-balance"></span></p>
-  <button onclick="logout()">تسجيل خروج</button>
-</div>
+  <div id="dashboard">
+    <div id="card">
+      <img id="card-image" src="images/default.jpg" alt="Card">
+      <h3 id="card-name"></h3>
+      <h4 id="card-family"></h4>
+      <p id="balance">الرصيد: </p>
+    </div>
+    <button id="logout-btn">تسجيل خروج</button>
+  </div>
 
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
