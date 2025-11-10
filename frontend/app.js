@@ -1,96 +1,54 @@
-// بيانات المستخدمين التجريبية (في نسخة حقيقية، تجيبها من Neon DB)
-let users = [];
-let currentUser = null;
+const apiUrl = "/api/users";
 
-// عرض/إخفاء تسجيل الدخول وإنشاء الحساب
-const loginDiv = document.getElementById("loginDiv");
-const signupDiv = document.getElementById("signupDiv");
-const dashboard = document.getElementById("dashboard");
+const signupBtn = document.getElementById("signupBtn");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 
-document.getElementById("showSignup").onclick = () => {
-  loginDiv.style.display = "none";
-  signupDiv.style.display = "block";
-};
+const nameInput = document.getElementById("name");
+const familyNameInput = document.getElementById("family_name");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
 
-document.getElementById("showLogin").onclick = () => {
-  signupDiv.style.display = "none";
-  loginDiv.style.display = "block";
-};
+const authDiv = document.getElementById("auth");
+const dashboardDiv = document.getElementById("dashboard");
+const userFullName = document.getElementById("userFullName");
+const balanceEl = document.getElementById("balance");
 
-// إنشاء حساب
-document.getElementById("signupBtn").onclick = () => {
-  const name = document.getElementById("signupName").value.trim();
-  const family = document.getElementById("signupFamily").value.trim();
-  const email = document.getElementById("signupEmail").value.trim();
-  const password = document.getElementById("signupPassword").value.trim();
-  const imageInput = document.getElementById("signupImage");
-
-  if (!name || !family || !email || !password) {
-    alert("الرجاء ملء جميع الحقول");
-    return;
-  }
-
-  const image = imageInput.files[0] ? URL.createObjectURL(imageInput.files[0]) : "images/default.jpg";
-
-  // إضافة المستخدم
-  users.push({
-    id: Date.now(),
-    name,
-    family,
-    email,
-    password,
-    balance: 100, // رصيد أولي للمستخدم العادي
-    image
+signupBtn.addEventListener("click", async () => {
+  const res = await fetch(apiUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "create",
+      name: nameInput.value,
+      family_name: familyNameInput.value,
+      email: emailInput.value,
+      password: passwordInput.value,
+    }),
   });
+  const data = await res.json();
+  alert(data.message);
+});
 
-  alert("تم إنشاء الحساب بنجاح!");
-  signupDiv.style.display = "none";
-  loginDiv.style.display = "block";
-};
+loginBtn.addEventListener("click", async () => {
+  const res = await fetch(apiUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "login",
+      email: emailInput.value,
+      password: passwordInput.value,
+    }),
+  });
+  const data = await res.json();
+  if (res.status !== 200) return alert(data.message);
+  authDiv.style.display = "none";
+  dashboardDiv.style.display = "block";
+  userFullName.innerText = `${data.name} ${data.family_name}`;
+  balanceEl.innerText = `Balance: ${data.balance}`;
+});
 
-// تسجيل الدخول
-document.getElementById("loginBtn").onclick = () => {
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value.trim();
-
-  if (!email || !password) {
-    alert("الرجاء إدخال البريد الإلكتروني وكلمة المرور");
-    return;
-  }
-
-  const user = users.find(u => u.email === email && u.password === password);
-
-  if (!user) {
-    alert("البريد الإلكتروني أو كلمة المرور خاطئة");
-    return;
-  }
-
-  currentUser = user;
-  showDashboard();
-};
-
-// عرض لوحة التحكم
-function showDashboard() {
-  loginDiv.style.display = "none";
-  signupDiv.style.display = "none";
-  dashboard.style.display = "block";
-
-  document.getElementById("userFullName").innerText = `${currentUser.name} ${currentUser.family}`;
-  document.getElementById("userBalance").innerText = currentUser.balance;
-  document.getElementById("userImage").src = currentUser.image;
-
-  // صلاحيات الادمن
-  const adminPanel = document.getElementById("adminPanel");
-  if (currentUser.email === "admin@kiropay.com") {
-    adminPanel.style.display = "block";
-  } else {
-    adminPanel.style.display = "none";
-  }
-}
-
-// تسجيل خروج
-document.getElementById("logoutBtn").onclick = () => {
-  currentUser = null;
-  dashboard.style.display = "none";
-  loginDiv.style.display = "block";
-};
+logoutBtn.addEventListener("click", () => {
+  dashboardDiv.style.display = "none";
+  authDiv.style.display = "block";
+});
