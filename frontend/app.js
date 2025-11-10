@@ -39,7 +39,7 @@ signupBtn.onclick = async () => {
       email: emailInput.value,
       password: passwordInput.value,
       balance: 0,
-      isAdmin: false
+      is_admin: false
     })
   });
   const data = await res.json();
