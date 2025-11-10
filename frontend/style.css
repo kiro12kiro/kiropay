@@ -1,39 +1,47 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  text-align: center;
+  background-color: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.container {
-  margin-top: 50px;
+#auth-section, #dashboard {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 300px;
 }
 
 input {
+  width: 90%;
   padding: 10px;
-  margin: 5px;
-  width: 200px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 button {
-  padding: 10px 15px;
+  padding: 10px 20px;
   margin: 5px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+}
+
+button:hover {
+  background-color: #45a049;
 }
 
 .visa-card {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  display: inline-block;
+  background: linear-gradient(135deg, #1a1a1a, #555);
+  color: white;
   padding: 20px;
-  background: linear-gradient(135deg, #fdd835, #fbc02d);
+  border-radius: 15px;
   margin-bottom: 20px;
-}
-
-.visa-card img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-#admin-controls input {
-  width: 150px;
 }
