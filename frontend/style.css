@@ -1,35 +1,39 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f0f0f0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+  background-color: #f2f2f2;
+  text-align: center;
 }
+
 .container {
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 0 10px rgba(0,0,0,0.1);
-  width:300px;
+  margin-top: 50px;
 }
+
 input {
-  width:100%;
-  padding:10px;
-  margin:5px 0;
-  border-radius:5px;
-  border:1px solid #ccc;
+  padding: 10px;
+  margin: 5px;
+  width: 200px;
 }
+
 button {
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  border:none;
-  background:#007bff;
-  color:white;
-  border-radius:5px;
-  cursor:pointer;
+  padding: 10px 15px;
+  margin: 5px;
+  cursor: pointer;
 }
-button:hover {
-  background:#0056b3;
+
+.visa-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: inline-block;
+  padding: 20px;
+  background: linear-gradient(135deg, #fdd835, #fbc02d);
+  margin-bottom: 20px;
+}
+
+.visa-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+#admin-controls input {
+  width: 150px;
 }
