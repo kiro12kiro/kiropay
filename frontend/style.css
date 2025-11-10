@@ -1,68 +1,68 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f2f4f8;
+  font-family: "Cairo", sans-serif;
+  background-color: #f6f8fa;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
+  margin: 0;
+  padding-top: 40px;
 }
 
 .container {
-  background: #fff;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   width: 90%;
-  max-width: 600px;
-  text-align: center;
-}
-
-.logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 15px;
-  border: 3px solid #007bff;
+  max-width: 500px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 25px;
 }
 
 h1 {
+  text-align: center;
   color: #007bff;
-  margin-bottom: 10px;
+}
+
+#status {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 input, button {
-  padding: 10px;
-  margin: 5px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 16px;
 }
 
 button {
-  cursor: pointer;
-  background: #007bff;
+  background-color: #007bff;
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 button:hover {
-  background: #0056b3;
+  background-color: #0056b3;
 }
 
-.message {
-  text-align: center;
+.user {
+  background: #f1f1f1;
   margin-bottom: 10px;
-  color: green;
-  font-weight: bold;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-table {
-  width: 100%;
-  margin-top: 15px;
-  border-collapse: collapse;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
+.user button {
+  margin-left: 5px;
 }
