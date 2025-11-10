@@ -7,12 +7,37 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>💳 Kiropay Dashboard</h1>
+  <div class="container">
+    <div id="auth-section">
+      <h1>Kiropay</h1>
+      <div id="message"></div>
+      <input type="text" id="name" placeholder="First Name" />
+      <input type="text" id="family" placeholder="Last Name" />
+      <input type="email" id="email" placeholder="Email" />
+      <input type="password" id="password" placeholder="Password" />
+      <input type="file" id="profilePic" />
+      <button id="signupBtn">Create Account</button>
+      <button id="loginBtn">Login</button>
+    </div>
 
-  <div id="output"></div>
-
-  <button onclick="loadUsers()">🔄 Show Users</button>
-  <button onclick="createUser()">➕ Create User</button>
+    <div id="dashboard" style="display:none;">
+      <h2 id="userWelcome"></h2>
+      <div class="visa-card">
+        <img src="" id="cardPic" />
+        <div id="cardName"></div>
+        <div id="cardFamily"></div>
+        <div id="cardBalance"></div>
+      </div>
+      <div id="adminControls" style="display:none;">
+        <input type="number" id="amount" placeholder="Amount" />
+        <button id="addBalanceBtn" class="green">+</button>
+        <button id="removeBalanceBtn" class="red">-</button>
+        <input type="text" id="searchUser" placeholder="Search User" />
+        <button id="deleteUserBtn">Delete User</button>
+      </div>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
