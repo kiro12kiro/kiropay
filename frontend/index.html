@@ -1,38 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Kiropay</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiropay</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <h1>Kiropay</h1>
-    <div id="login-section">
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
-      <button id="loginBtn">تسجيل الدخول</button>
-    </div>
+<div class="container">
+  <h1>Kiropay</h1>
 
-    <div id="user-section" style="display:none;">
-      <h2>مرحبا، <span id="userName"></span></h2>
-      <div class="card">
-        <img src="images/default.jpg" alt="Visa Card" id="cardImage">
-        <p id="cardName">Name</p>
-        <p id="cardFamily">Family Name</p>
-        <p id="cardBalance">Balance: 100</p>
-      </div>
-      <div id="admin-section" style="display:none;">
-        <input type="text" id="searchName" placeholder="Search user">
-        <button id="searchBtn">بحث</button>
-        <input type="number" id="balanceAmount" placeholder="Amount">
-        <button id="addBalanceBtn">إضافة رصيد</button>
-        <button id="removeBalanceBtn">حذف رصيد</button>
-        <button id="deleteUserBtn">حذف مستخدم</button>
-      </div>
-      <button id="logoutBtn">تسجيل الخروج</button>
-    </div>
+  <div id="login-form">
+    <h2>تسجيل دخول</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button id="login-btn">تسجيل دخول</button>
   </div>
-  <script src="app.js"></script>
+
+  <div id="register-form">
+    <h2>انشاء حساب</h2>
+    <input type="text" id="name" placeholder="الاسم">
+    <input type="text" id="family_name" placeholder="اسم العائلة">
+    <input type="email" id="reg-email" placeholder="Email">
+    <input type="password" id="reg-password" placeholder="Password">
+    <button id="register-btn">انشاء حساب</button>
+  </div>
+
+  <div id="user-dashboard" style="display:none;">
+    <h2 id="user-name"></h2>
+    <p>الرصيد: <span id="user-balance"></span></p>
+    <button id="logout-btn">تسجيل خروج</button>
+  </div>
+</div>
+<script src="app.js"></script>
 </body>
 </html>
