@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kiropay</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <h1>💳 Kiropay Dashboard</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kiropay</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>💳 Kiropay Dashboard</h1>
 
-      <div id="status">Loading...</div>
+  <div id="output"></div>
 
-      <div class="controls">
-        <input id="search" placeholder="Search user..." />
-        <button onclick="searchUser()">Search</button>
-        <button onclick="getUsers()">Show All</button>
-      </div>
+  <button onclick="loadUsers()">🔄 Show Users</button>
+  <button onclick="createUser()">➕ Create User</button>
 
-      <div id="users"></div>
-    </div>
-
-    <script src="app.js"></script>
-  </body>
+  <script src="app.js"></script>
+</body>
 </html>
