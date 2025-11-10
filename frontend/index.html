@@ -3,40 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kiropay</title>
+  <title>Kiropay Dashboard</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <div id="auth-section">
-      <h1>Kiropay</h1>
-      <div id="message"></div>
-      <input type="text" id="name" placeholder="First Name" />
-      <input type="text" id="family" placeholder="Last Name" />
-      <input type="email" id="email" placeholder="Email" />
-      <input type="password" id="password" placeholder="Password" />
-      <input type="file" id="profilePic" />
-      <button id="signupBtn">Create Account</button>
-      <button id="loginBtn">Login</button>
+    <img src="images/default.jpg" alt="Kiropay Logo" class="logo" />
+
+    <h1>💳 Kiropay Dashboard</h1>
+    <div id="message" class="message"></div>
+
+    <div class="form">
+      <input type="text" id="username" placeholder="User name" />
+      <input type="number" id="balance" placeholder="Initial balance" />
+      <button onclick="createUser()">Create Account</button>
     </div>
 
-    <div id="dashboard" style="display:none;">
-      <h2 id="userWelcome"></h2>
-      <div class="visa-card">
-        <img src="" id="cardPic" />
-        <div id="cardName"></div>
-        <div id="cardFamily"></div>
-        <div id="cardBalance"></div>
-      </div>
-      <div id="adminControls" style="display:none;">
-        <input type="number" id="amount" placeholder="Amount" />
-        <button id="addBalanceBtn" class="green">+</button>
-        <button id="removeBalanceBtn" class="red">-</button>
-        <input type="text" id="searchUser" placeholder="Search User" />
-        <button id="deleteUserBtn">Delete User</button>
-      </div>
-      <button id="logoutBtn">Logout</button>
+    <div class="actions">
+      <input type="number" id="userId" placeholder="User ID" />
+      <input type="number" id="amount" placeholder="Amount" />
+      <button onclick="addBalance()">Add</button>
+      <button onclick="removeBalance()">Remove</button>
+      <button onclick="deleteUser()">Delete</button>
+      <button onclick="loadUsers()">Refresh</button>
     </div>
+
+    <table id="usersTable">
+      <thead>
+        <tr><th>ID</th><th>Name</th><th>Balance</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
   <script src="app.js"></script>
