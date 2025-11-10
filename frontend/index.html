@@ -1,36 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kiropay</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="auth-section">
-    <h1>Kiropay</h1>
-    <input type="email" id="email" placeholder="الإيميل">
-    <input type="password" id="password" placeholder="كلمة المرور">
-    <button id="loginBtn">تسجيل دخول</button>
-    <button id="signupBtn">إنشاء حساب</button>
-  </div>
-
-  <div id="dashboard" style="display:none;">
-    <div class="visa-card">
-      <p id="userName">اسم المستخدم</p>
-      <p id="familyName">اسم الأسرة</p>
-      <p>الرصيد: <span id="balance">0</span></p>
-    </div>
-
-    <div id="adminActions" style="display:none;">
-      <select id="userSelect"></select>
-      <button id="addBalanceBtn">إضافة رصيد</button>
-      <button id="removeBalanceBtn">سحب رصيد</button>
-      <button id="deleteUserBtn">حذف مستخدم</button>
-    </div>
-
-    <button id="logoutBtn">تسجيل خروج</button>
-  </div>
-
   <script src="app.js"></script>
 </body>
 </html>
