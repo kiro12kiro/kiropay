@@ -1,5 +1,4 @@
 const API_URL = "https://kiropay-web.vercel.app/api/users";
-
 let currentUser = null;
 let selectedUserId = null;
 
@@ -8,7 +7,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  if (!email || !password) return alert("من فضلك ادخل الإيميل وكلمة المرور");
+  if (!email || !password) return alert("ادخل الإيميل وكلمة المرور");
 
   const res = await fetch(API_URL, {
     method: "POST",
@@ -30,7 +29,7 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
   const name = prompt("الاسم");
   const familyName = prompt("اسم الأسرة");
 
-  if (!email || !password || !name || !familyName) return alert("يرجى ملء جميع الحقول");
+  if (!email || !password || !name || !familyName) return alert("يرجى ملء كل الحقول");
 
   const res = await fetch(API_URL, {
     method: "POST",
