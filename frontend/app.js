@@ -1,35 +1,4 @@
-const loginBtn = document.getElementById("login-btn");
-const signupBtn = document.getElementById("signup-btn");
-const logoutBtn = document.getElementById("logout-btn");
-
-const loginContainer = document.getElementById("login-container");
-const signupContainer = document.getElementById("signup-container");
-const dashboard = document.getElementById("dashboard");
-
-const cardName = document.getElementById("card-name");
-const cardFamily = document.getElementById("card-family");
-const cardBalance = document.getElementById("card-balance");
-
-const adminActions = document.getElementById("admin-actions");
-
 let currentUser = null;
-
-async function login() {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-
-  const res = await fetch(`/api/users`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "login", email, password }),
-  });
-
-  const data = await res.json();
-  if (data.error) return alert(data.error);
-  currentUser = data.user;
-
-  showDashboard();
-}
 
 async function signup() {
   const name = document.getElementById("signup-name").value;
@@ -37,7 +6,9 @@ async function signup() {
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
 
-  const res = await fetch(`/api/users`, {
+  if (!name || !family || !email || !password) return alert("All fields are required");
+
+  const res = await fetch("/api/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ action: "create", name, family, email, password }),
@@ -45,25 +16,38 @@ async function signup() {
 
   const data = await res.json();
   if (data.error) return alert(data.error);
-  alert("User created, please login!");
+  alert("تم إنشاء الحساب بنجاح!");
+}
+
+async function login() {
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  if (!email || !password) return alert("Email and Password are required");
+
+  const res = await fetch("/api/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "login", email, password }),
+  });
+
+  const data = await res.json();
+  if (data.error) return alert(data.error);
+
+  currentUser = data.user;
+  showDashboard();
 }
 
 function showDashboard() {
-  loginContainer.style.display = "none";
-  signupContainer.style.display = "none";
-  dashboard.style.display = "block";
-
-  cardName.textContent = currentUser.name;
-  cardFamily.textContent = currentUser.family;
-  cardBalance.textContent = currentUser.balance;
-
-  if (currentUser.isAdmin) adminActions.style.display = "block";
+  document.getElementById("auth-container").style.display = "none";
+  document.getElementById("dashboard").style.display = "block";
+  document.getElementById("user-name").innerText = `${currentUser.name} ${currentUser.family}`;
+  document.getElementById("user-balance").innerText = currentUser.balance;
+  document.getElementById("user-img").src = currentUser.image || "images/default.jpg";
 }
 
-logoutBtn.addEventListener("click", () => {
+function logout() {
   currentUser = null;
-  dashboard.style.display = "none";
-  loginContainer.style.display = "block";
-});
-loginBtn.addEventListener("click", login);
-signupBtn.addEventListener("click", signup);
+  document.getElementById("auth-container").style.display = "block";
+  document.getElementById("dashboard").style.display = "none";
+}
