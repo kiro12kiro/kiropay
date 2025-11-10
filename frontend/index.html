@@ -7,7 +7,7 @@
 </head>
 <body>
   <div id="auth-section">
-    <h2>Kiropay</h2>
+    <h1>Kiropay</h1>
     <input type="email" id="email" placeholder="الإيميل">
     <input type="password" id="password" placeholder="كلمة المرور">
     <button id="loginBtn">تسجيل دخول</button>
@@ -15,10 +15,11 @@
   </div>
 
   <div id="dashboard" style="display:none;">
-    <h2>لوحة التحكم</h2>
-    <p>المستخدم: <span id="userName"></span></p>
-    <p>اسم الأسرة: <span id="familyName"></span></p>
-    <p>الرصيد: <span id="balance"></span></p>
+    <div class="visa-card">
+      <p id="userName">اسم المستخدم</p>
+      <p id="familyName">اسم الأسرة</p>
+      <p>الرصيد: <span id="balance">0</span></p>
+    </div>
 
     <div id="adminActions" style="display:none;">
       <select id="userSelect"></select>
