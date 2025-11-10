@@ -15,10 +15,10 @@ export default async function handler(req, res) {
     }
 
     if (method === "POST" && req.body.action === "create") {
-      const { name, family_name, email, password } = req.body;
+      const { name, family, email, password } = req.body;
       await pool.query(
-        "INSERT INTO users (name, family_name, email, password, balance) VALUES ($1, $2, $3, $4, 100) ON CONFLICT (email) DO NOTHING",
-        [name, family_name, email, password]
+        "INSERT INTO users (name, family, email, password, balance, isAdmin) VALUES ($1, $2, $3, $4, 100, false) ON CONFLICT (email) DO NOTHING",
+        [name, family, email, password]
       );
       return res.status(200).json({ message: "User created" });
     }
@@ -29,19 +29,26 @@ export default async function handler(req, res) {
         "SELECT * FROM users WHERE email=$1 AND password=$2",
         [email, password]
       );
-      if (result.rows.length === 0) return res.status(401).json({ error: "Invalid credentials" });
+      if (result.rows.length === 0)
+        return res.status(401).json({ message: "Invalid credentials" });
       return res.status(200).json(result.rows[0]);
     }
 
-    if (method === "POST" && req.body.action === "add") {
+    if (method === "POST" && req.body.action === "addBalance") {
       const { userId, amount } = req.body;
-      await pool.query("UPDATE users SET balance = balance + $1 WHERE id = $2", [amount, userId]);
+      await pool.query(
+        "UPDATE users SET balance = balance + $1 WHERE id = $2",
+        [amount, userId]
+      );
       return res.status(200).json({ message: "Balance added" });
     }
 
-    if (method === "POST" && req.body.action === "remove") {
+    if (method === "POST" && req.body.action === "removeBalance") {
       const { userId, amount } = req.body;
-      await pool.query("UPDATE users SET balance = balance - $1 WHERE id = $2", [amount, userId]);
+      await pool.query(
+        "UPDATE users SET balance = balance - $1 WHERE id = $2",
+        [amount, userId]
+      );
       return res.status(200).json({ message: "Balance removed" });
     }
 
