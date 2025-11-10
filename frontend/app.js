@@ -49,10 +49,10 @@ function logout() {
   renderLogin();
 }
 
-// عرض واجهة تسجيل دخول
+// واجهة تسجيل دخول
 function renderLogin() {
   document.body.innerHTML = `
-    <div>
+    <div class="login">
       <h2>تسجيل دخول</h2>
       <input id="email" placeholder="البريد الإلكتروني"/>
       <button onclick="login(document.getElementById('email').value)">تسجيل دخول</button>
@@ -61,10 +61,10 @@ function renderLogin() {
   `;
 }
 
-// عرض واجهة إنشاء حساب
+// واجهة إنشاء حساب
 function renderSignup() {
   document.body.innerHTML = `
-    <div>
+    <div class="signup">
       <h2>إنشاء حساب</h2>
       <input id="name" placeholder="الاسم"/>
       <input id="family_name" placeholder="اسم الأسرة"/>
@@ -79,22 +79,42 @@ async function signup() {
   const name = document.getElementById("name").value;
   const family_name = document.getElementById("family_name").value;
   const email = document.getElementById("email").value;
-  await createUser(name, family_name, email, 100); // مستخدم جديد يبدأ برصيد 100
+  await createUser(name, family_name, email, 100);
   alert("تم إنشاء الحساب!");
   renderLogin();
 }
 
-// عرض داشبورد بعد تسجيل الدخول
-function renderDashboard(user) {
+// واجهة داشبورد
+async function renderDashboard(user) {
+  const isAdmin = user.email === "admin@kiropay.com";
+  const users = await getUsers();
+
+  let usersHtml = "";
+  if (isAdmin) {
+    usersHtml = users.map(u => `
+      <div class="user">
+        <p>${u.name} ${u.family_name} - الرصيد: ${u.balance}</p>
+        <button onclick="addBalance(${u.id}, 50)">إضافة 50</button>
+        <button onclick="removeBalance(${u.id}, 50)">سحب 50</button>
+        <button onclick="deleteUser(${u.id})">حذف</button>
+      </div>
+    `).join("");
+  }
+
   document.body.innerHTML = `
-    <div>
+    <div class="dashboard">
       <h2>مرحبًا ${user.name} ${user.family_name}</h2>
+      <div class="visa-card">
+        <img src="images/default.jpg" alt="card image"/>
+        <h3>${user.name} ${user.family_name}</h3>
+        <p>Kiropay Visa</p>
+      </div>
       <p>الرصيد: ${user.balance}</p>
       <button onclick="logout()">تسجيل خروج</button>
+      <div class="admin-actions">${usersHtml}</div>
     </div>
   `;
 }
 
-// بدء الصفحة
 const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
 currentUser ? renderDashboard(currentUser) : renderLogin();
