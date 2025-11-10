@@ -13,6 +13,7 @@ export default async function handler(req, res) {
 
       if (action === "create") {
         const { name, family, email, password } = req.body;
+        if (!password) return res.json({ error: "Password is required" });
         await pool.query(
           "INSERT INTO users (name, family, email, password, balance, isAdmin) VALUES ($1,$2,$3,$4,100,false) ON CONFLICT (email) DO NOTHING",
           [name, family, email, password]
@@ -22,12 +23,14 @@ export default async function handler(req, res) {
 
       if (action === "login") {
         const { email, password } = req.body;
+        if (!password) return res.json({ error: "Password is required" });
+
         const result = await pool.query(
           "SELECT * FROM users WHERE email=$1 AND password=$2",
           [email, password]
         );
         if (result.rows.length === 0)
-          return res.json({ error: "Invalid credentials" });
+          return res.json({ error: "Invalid email or password" });
         return res.json({ user: result.rows[0] });
       }
     }
