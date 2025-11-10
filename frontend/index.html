@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Kiropay</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiropay</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Kiropay</h1>
-    <div id="auth">
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
-      <button id="loginBtn">تسجيل دخول</button>
-      <button id="signupBtn">إنشاء حساب</button>
-    </div>
+<div class="container">
+  <h1>Kiropay</h1>
 
-    <div id="dashboard" style="display:none;">
-      <div class="card">
-        <img id="cardImage" src="images/default.jpg">
-        <div class="card-info">
-          <h2 id="cardName"></h2>
-          <p>الرصيد: <span id="balance"></span></p>
-        </div>
-        <button id="logoutBtn">تسجيل خروج</button>
+  <div id="message"></div>
+
+  <div id="login-form">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button id="login-btn">تسجيل الدخول</button>
+  </div>
+
+  <div id="signup-form" style="display:none;">
+    <input type="text" id="name" placeholder="الاسم">
+    <input type="text" id="family" placeholder="اسم الأسرة">
+    <input type="email" id="signup-email" placeholder="Email">
+    <input type="password" id="signup-password" placeholder="Password">
+    <button id="signup-btn">إنشاء حساب</button>
+  </div>
+
+  <div id="user-dashboard" style="display:none;">
+    <div class="card">
+      <img src="images/default.jpg" alt="Visa Card">
+      <div class="card-info">
+        <h2 id="card-name">اسم المستخدم</h2>
+        <p id="card-family">اسم الأسرة</p>
+        <p>الرصيد: <span id="balance">0</span></p>
       </div>
+      <button id="logout-btn">تسجيل خروج</button>
     </div>
   </div>
-  <script src="app.js"></script>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
