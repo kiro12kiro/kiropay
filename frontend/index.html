@@ -1,51 +1,49 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kiropay</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Kiropay</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="container">
-
-  <h1>Kiropay</h1>
-
-  <!-- Auth Section -->
-  <div id="auth-section">
-    <input type="email" id="email" placeholder="البريد الإلكتروني" required>
-    <input type="password" id="password" placeholder="كلمة المرور" required>
-    <input type="text" id="name" placeholder="الاسم">
-    <input type="text" id="family_name" placeholder="اسم العائلة">
-    <button id="signup-btn">إنشاء حساب</button>
-    <button id="login-btn">تسجيل دخول</button>
-  </div>
-
-  <!-- Dashboard -->
-  <div id="dashboard" class="hidden">
-    <div class="card">
-      <img id="card-img" src="images/default.jpg" alt="User Image">
-      <h2 id="user-name">Name</h2>
-      <h3 id="user-family">Family</h3>
-      <p>الرصيد: <span id="user-balance">0</span></p>
+  <div id="container">
+    <h1>Kiropay</h1>
+    
+    <div id="login-section">
+      <input type="email" id="login-email" placeholder="Email">
+      <input type="password" id="login-password" placeholder="Password">
+      <button id="login-btn">تسجيل دخول</button>
     </div>
 
-    <button id="logout-btn">تسجيل خروج</button>
-
-    <!-- Admin Section -->
-    <div id="admin-section" class="hidden">
-      <h3>Admin Panel</h3>
-      <input type="number" id="amount" placeholder="المبلغ">
-      <input type="number" id="userId" placeholder="ID المستخدم">
-      <button id="add-balance-btn">إضافة رصيد</button>
-      <button id="remove-balance-btn">خصم رصيد</button>
-      <button id="delete-user-btn">حذف مستخدم</button>
+    <div id="signup-section">
+      <input type="text" id="signup-name" placeholder="الاسم">
+      <input type="text" id="signup-family" placeholder="اسم الاسرة">
+      <input type="email" id="signup-email" placeholder="Email">
+      <input type="password" id="signup-password" placeholder="Password">
+      <input type="file" id="signup-image">
+      <button id="signup-btn">انشاء حساب</button>
     </div>
+
+    <div id="dashboard" style="display:none;">
+      <div id="card">
+        <img id="card-img" src="images/default.jpg">
+        <h2 id="card-name"></h2>
+        <h3 id="card-family"></h3>
+        <p id="card-balance"></p>
+      </div>
+      <button id="logout-btn">تسجيل خروج</button>
+      <div id="admin-actions" style="display:none;">
+        <input type="text" id="search-name" placeholder="ابحث عن مستخدم">
+        <button id="search-btn">بحث</button>
+        <input type="number" id="add-balance-amount" placeholder="اضف رصيد">
+        <button id="add-balance-btn">اضافة رصيد</button>
+        <button id="delete-user-btn">حذف مستخدم</button>
+      </div>
+    </div>
+
+    <div id="message"></div>
   </div>
 
-</div>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
