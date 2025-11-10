@@ -1,103 +1,100 @@
-const API_URL = "https://kiropay-web.vercel.app/api/users";
-let currentUser = null;
-let selectedUserId = null;
+const apiUrl = "/api/users";
 
-// تسجيل الدخول
-document.getElementById("loginBtn").addEventListener("click", async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+async function getUsers() {
+  const res = await fetch(apiUrl);
+  return res.json();
+}
 
-  if (!email || !password) return alert("ادخل الإيميل وكلمة المرور");
-
-  const res = await fetch(API_URL, {
+async function createUser(name, family_name, email, balance) {
+  const res = await fetch(apiUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "login", email, password })
+    body: JSON.stringify({ action: "create", name, family_name, email, balance }),
   });
+  return res.json();
+}
 
-  const data = await res.json();
-  if (data.error) return alert(data.error);
-
-  currentUser = data.user;
-  showDashboard();
-});
-
-// إنشاء حساب
-document.getElementById("signupBtn").addEventListener("click", async () => {
-  const email = prompt("الإيميل");
-  const password = prompt("كلمة المرور");
-  const name = prompt("الاسم");
-  const familyName = prompt("اسم الأسرة");
-
-  if (!email || !password || !name || !familyName) return alert("يرجى ملء كل الحقول");
-
-  const res = await fetch(API_URL, {
+async function addBalance(userId, amount) {
+  await fetch(apiUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "create", email, password, name, familyName, balance: 100 })
+    body: JSON.stringify({ action: "add", userId, amount }),
   });
+}
 
-  const data = await res.json();
-  if (data.error) return alert(data.error);
+async function removeBalance(userId, amount) {
+  await fetch(apiUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "remove", userId, amount }),
+  });
+}
 
-  alert("تم إنشاء الحساب بنجاح!");
-});
+async function deleteUser(userId) {
+  await fetch(`${apiUrl}?id=${userId}`, { method: "DELETE" });
+}
 
-// عرض لوحة التحكم
-async function showDashboard() {
-  document.getElementById("auth-section").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
-
-  document.getElementById("userName").innerText = currentUser.name;
-  document.getElementById("familyName").innerText = currentUser.family_name;
-  document.getElementById("balance").innerText = currentUser.balance;
-
-  if (currentUser.is_admin) {
-    document.getElementById("adminActions").style.display = "block";
-    const res = await fetch(API_URL);
-    const users = await res.json();
-    const userSelect = document.getElementById("userSelect");
-    userSelect.innerHTML = "";
-    users.forEach(u => {
-      const opt = document.createElement("option");
-      opt.value = u.id;
-      opt.text = `${u.name} ${u.family_name}`;
-      userSelect.appendChild(opt);
-    });
-    selectedUserId = users[0].id;
-    userSelect.addEventListener("change", e => selectedUserId = e.target.value);
-
-    document.getElementById("addBalanceBtn").onclick = async () => {
-      const amount = parseInt(prompt("المبلغ المراد إضافته"));
-      await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "add", userId: selectedUserId, amount })
-      });
-      alert("تمت الإضافة!");
-    };
-
-    document.getElementById("removeBalanceBtn").onclick = async () => {
-      const amount = parseInt(prompt("المبلغ المراد خصمه"));
-      await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "remove", userId: selectedUserId, amount })
-      });
-      alert("تم الخصم!");
-    };
-
-    document.getElementById("deleteUserBtn").onclick = async () => {
-      if (!confirm("هل أنت متأكد من حذف هذا المستخدم؟")) return;
-      await fetch(`${API_URL}?id=${selectedUserId}`, { method: "DELETE" });
-      alert("تم الحذف!");
-    };
-  }
+// تسجيل دخول
+async function login(email) {
+  const users = await getUsers();
+  const user = users.find(u => u.email === email);
+  if (!user) return alert("User not found");
+  sessionStorage.setItem("currentUser", JSON.stringify(user));
+  renderDashboard(user);
 }
 
 // تسجيل خروج
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  currentUser = null;
-  document.getElementById("dashboard").style.display = "none";
-  document.getElementById("auth-section").style.display = "block";
-});
+function logout() {
+  sessionStorage.removeItem("currentUser");
+  renderLogin();
+}
+
+// عرض واجهة تسجيل دخول
+function renderLogin() {
+  document.body.innerHTML = `
+    <div>
+      <h2>تسجيل دخول</h2>
+      <input id="email" placeholder="البريد الإلكتروني"/>
+      <button onclick="login(document.getElementById('email').value)">تسجيل دخول</button>
+      <button onclick="renderSignup()">إنشاء حساب</button>
+    </div>
+  `;
+}
+
+// عرض واجهة إنشاء حساب
+function renderSignup() {
+  document.body.innerHTML = `
+    <div>
+      <h2>إنشاء حساب</h2>
+      <input id="name" placeholder="الاسم"/>
+      <input id="family_name" placeholder="اسم الأسرة"/>
+      <input id="email" placeholder="البريد الإلكتروني"/>
+      <button onclick="signup()">إنشاء</button>
+      <button onclick="renderLogin()">رجوع</button>
+    </div>
+  `;
+}
+
+async function signup() {
+  const name = document.getElementById("name").value;
+  const family_name = document.getElementById("family_name").value;
+  const email = document.getElementById("email").value;
+  await createUser(name, family_name, email, 100); // مستخدم جديد يبدأ برصيد 100
+  alert("تم إنشاء الحساب!");
+  renderLogin();
+}
+
+// عرض داشبورد بعد تسجيل الدخول
+function renderDashboard(user) {
+  document.body.innerHTML = `
+    <div>
+      <h2>مرحبًا ${user.name} ${user.family_name}</h2>
+      <p>الرصيد: ${user.balance}</p>
+      <button onclick="logout()">تسجيل خروج</button>
+    </div>
+  `;
+}
+
+// بدء الصفحة
+const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+currentUser ? renderDashboard(currentUser) : renderLogin();
