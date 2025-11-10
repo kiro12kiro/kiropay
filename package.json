@@ -1,9 +1,13 @@
 {
   "name": "kiropay",
   "version": "1.0.0",
+  "description": "Kiropay web app with Neon PostgreSQL backend",
   "main": "api/users.js",
   "type": "module",
+  "scripts": {
+    "start": "node api/users.js"
+  },
   "dependencies": {
-    "pg": "^8.11.1"
+    "pg": "^8.11.3"
   }
 }
