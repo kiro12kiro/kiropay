@@ -1,65 +1,96 @@
-// بيانات تجريبية - يمكنك ربطها بقاعدة بيانات Neon لاحقًا
-const users = [
-  { firstName: "Admin", lastName: "AdminFamily", email: "admin@kiropay.com", password: "Admin1234!", balance: 1000, role: "admin" }
-];
-
+// بيانات المستخدمين التجريبية (في نسخة حقيقية، تجيبها من Neon DB)
+let users = [];
 let currentUser = null;
 
-const signupBtn = document.getElementById("signupBtn");
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+// عرض/إخفاء تسجيل الدخول وإنشاء الحساب
+const loginDiv = document.getElementById("loginDiv");
+const signupDiv = document.getElementById("signupDiv");
+const dashboard = document.getElementById("dashboard");
 
-function showDashboard() {
-  document.getElementById("auth-section").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
-  document.getElementById("welcome").innerText = `أهلا ${currentUser.firstName}`;
-  document.getElementById("cardName").innerText = currentUser.firstName;
-  document.getElementById("cardFamily").innerText = currentUser.lastName;
-  document.getElementById("cardBalance").innerText = `الرصيد: ${currentUser.balance}`;
+document.getElementById("showSignup").onclick = () => {
+  loginDiv.style.display = "none";
+  signupDiv.style.display = "block";
+};
 
-  if(currentUser.role === "admin"){
-    document.getElementById("admin-controls").style.display = "block";
-  }
-}
+document.getElementById("showLogin").onclick = () => {
+  signupDiv.style.display = "none";
+  loginDiv.style.display = "block";
+};
 
-signupBtn.addEventListener("click", () => {
-  const firstName = document.getElementById("firstName").value;
-  const lastName = document.getElementById("lastName").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+// إنشاء حساب
+document.getElementById("signupBtn").onclick = () => {
+  const name = document.getElementById("signupName").value.trim();
+  const family = document.getElementById("signupFamily").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value.trim();
+  const imageInput = document.getElementById("signupImage");
 
-  if(!firstName || !lastName || !email || !password){
-    alert("جميع الحقول مطلوبة!");
+  if (!name || !family || !email || !password) {
+    alert("الرجاء ملء جميع الحقول");
     return;
   }
 
-  if(users.some(u => u.email === email)){
-    alert("هذا البريد الإلكتروني مسجل مسبقًا");
+  const image = imageInput.files[0] ? URL.createObjectURL(imageInput.files[0]) : "images/default.jpg";
+
+  // إضافة المستخدم
+  users.push({
+    id: Date.now(),
+    name,
+    family,
+    email,
+    password,
+    balance: 100, // رصيد أولي للمستخدم العادي
+    image
+  });
+
+  alert("تم إنشاء الحساب بنجاح!");
+  signupDiv.style.display = "none";
+  loginDiv.style.display = "block";
+};
+
+// تسجيل الدخول
+document.getElementById("loginBtn").onclick = () => {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+
+  if (!email || !password) {
+    alert("الرجاء إدخال البريد الإلكتروني وكلمة المرور");
     return;
   }
-
-  const newUser = { firstName, lastName, email, password, balance: 100, role: "user" };
-  users.push(newUser);
-  currentUser = newUser;
-  showDashboard();
-});
-
-loginBtn.addEventListener("click", () => {
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
 
   const user = users.find(u => u.email === email && u.password === password);
-  if(!user){
+
+  if (!user) {
     alert("البريد الإلكتروني أو كلمة المرور خاطئة");
     return;
   }
 
   currentUser = user;
   showDashboard();
-});
+};
 
-logoutBtn.addEventListener("click", () => {
+// عرض لوحة التحكم
+function showDashboard() {
+  loginDiv.style.display = "none";
+  signupDiv.style.display = "none";
+  dashboard.style.display = "block";
+
+  document.getElementById("userFullName").innerText = `${currentUser.name} ${currentUser.family}`;
+  document.getElementById("userBalance").innerText = currentUser.balance;
+  document.getElementById("userImage").src = currentUser.image;
+
+  // صلاحيات الادمن
+  const adminPanel = document.getElementById("adminPanel");
+  if (currentUser.email === "admin@kiropay.com") {
+    adminPanel.style.display = "block";
+  } else {
+    adminPanel.style.display = "none";
+  }
+}
+
+// تسجيل خروج
+document.getElementById("logoutBtn").onclick = () => {
   currentUser = null;
-  document.getElementById("dashboard").style.display = "none";
-  document.getElementById("auth-section").style.display = "block";
-});
+  dashboard.style.display = "none";
+  loginDiv.style.display = "block";
+};
