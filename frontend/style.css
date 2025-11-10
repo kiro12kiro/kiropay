@@ -1,11 +1,7 @@
-body { font-family: Arial, sans-serif; padding: 20px; }
-input { display:block; margin:10px 0; padding:10px; width: 250px; }
-button { padding:10px 20px; margin:5px; cursor:pointer; }
-#card {
-  width: 300px; height:180px;
-  background: linear-gradient(135deg, #f7b733, #fc4a1a);
-  border-radius: 15px; color:white; padding:20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3); position:relative;
-}
-#card img { width:60px; position:absolute; top:20px; right:20px; }
-#card p { margin:10px 0; font-size:18px; }
+body { font-family: Arial, sans-serif; background: #f0f2f5; }
+.container { width: 300px; margin: 50px auto; text-align: center; }
+input { display: block; margin: 10px auto; padding: 10px; width: 80%; }
+button { margin: 5px; padding: 10px 20px; cursor: pointer; }
+.card { border: 1px solid #ccc; border-radius: 10px; padding: 20px; background: #fff; }
+.card img { width: 100%; border-radius: 10px; }
+.card-info { text-align: center; }
