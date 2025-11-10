@@ -1,27 +1,19 @@
-const API_URL = "https://kiropay-web.vercel.app/api/users";
+const API_BASE = "https://kiropay.vercel.app/api/users";
 
 async function loadUsers() {
-  const res = await fetch(API_URL);
-  const users = await res.json();
-  console.log(users);
+  const res = await fetch(API_BASE);
+  const data = await res.json();
+  document.getElementById("output").innerHTML = JSON.stringify(data, null, 2);
 }
 
-async function createUser(name, balance = 0) {
-  const res = await fetch(API_URL, {
+async function createUser() {
+  const name = prompt("Enter user name:");
+  const balance = parseFloat(prompt("Enter starting balance:"));
+  await fetch(API_BASE, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ action: "create", name, balance }),
   });
-  const data = await res.json();
-  alert(data.message);
-}
-
-async function addBalance(userId, amount) {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "add", userId, amount }),
-  });
-  const data = await res.json();
-  alert(data.message);
+  alert("User created!");
+  loadUsers();
 }
