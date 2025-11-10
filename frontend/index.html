@@ -1,41 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kiropay Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="container">
-    <img src="images/default.jpg" alt="Kiropay Logo" class="logo" />
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kiropay Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Kiropay 💳</h1>
 
-    <h1>💳 Kiropay Dashboard</h1>
-    <div id="message" class="message"></div>
+      <div id="status">جارِ تحميل البيانات...</div>
 
-    <div class="form">
-      <input type="text" id="username" placeholder="User name" />
-      <input type="number" id="balance" placeholder="Initial balance" />
-      <button onclick="createUser()">Create Account</button>
+      <div class="actions">
+        <input type="text" id="search" placeholder="ابحث عن مستخدم..." />
+        <button id="refresh">تحديث 🔄</button>
+      </div>
+
+      <div id="users"></div>
+
+      <h2>إدارة المستخدمين</h2>
+      <div class="form-group">
+        <input type="text" id="name" placeholder="اسم المستخدم" />
+        <input type="number" id="balance" placeholder="الرصيد" />
+        <button id="create">➕ إنشاء حساب</button>
+      </div>
     </div>
 
-    <div class="actions">
-      <input type="number" id="userId" placeholder="User ID" />
-      <input type="number" id="amount" placeholder="Amount" />
-      <button onclick="addBalance()">Add</button>
-      <button onclick="removeBalance()">Remove</button>
-      <button onclick="deleteUser()">Delete</button>
-      <button onclick="loadUsers()">Refresh</button>
-    </div>
-
-    <table id="usersTable">
-      <thead>
-        <tr><th>ID</th><th>Name</th><th>Balance</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
