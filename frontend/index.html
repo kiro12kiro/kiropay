@@ -1,60 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Kiropay</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiropay</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <!-- Login -->
-    <div id="login-container">
-      <h2>تسجيل دخول</h2>
-      <input type="email" id="email" placeholder="البريد الإلكتروني" />
-      <input type="password" id="password" placeholder="كلمة المرور" />
-      <button id="login-btn">تسجيل دخول</button>
-      <button id="show-signup-btn">إنشاء حساب</button>
-    </div>
 
-    <!-- Signup -->
-    <div id="signup-container" style="display:none">
-      <h2>إنشاء حساب</h2>
-      <input type="text" id="name" placeholder="الاسم" />
-      <input type="text" id="family" placeholder="اسم الأسرة" />
-      <input type="email" id="signup-email" placeholder="البريد الإلكتروني" />
-      <input type="password" id="signup-password" placeholder="كلمة المرور" />
-      <button id="signup-btn">إنشاء حساب</button>
-      <button id="back-login-btn">رجوع لتسجيل الدخول</button>
-    </div>
+<div id="loginContainer">
+  <h2>تسجيل الدخول</h2>
+  <input id="email" type="email" placeholder="البريد الإلكتروني" required>
+  <input id="password" type="password" placeholder="كلمة المرور" required>
+  <button id="loginBtn">تسجيل دخول</button>
+  <p>أو <span id="showSignup">إنشاء حساب</span></p>
+</div>
 
-    <!-- Dashboard -->
-    <div id="dashboard" style="display:none">
-      <h2>مرحبا <span id="user-name"></span></h2>
-      <div id="card">
-        <img src="images/default.jpg" alt="Card" />
-        <p id="card-name"></p>
-        <p id="card-family"></p>
-        <p>الرصيد: <span id="user-balance"></span></p>
-      </div>
+<div id="signupContainer" style="display:none;">
+  <h2>إنشاء حساب</h2>
+  <input id="name" type="text" placeholder="الاسم الأول">
+  <input id="family" type="text" placeholder="اسم العائلة">
+  <input id="signup-email" type="email" placeholder="البريد الإلكتروني">
+  <input id="signup-password" type="password" placeholder="كلمة المرور">
+  <button id="signupBtn">إنشاء حساب</button>
+  <p>أو <span id="showLogin">تسجيل دخول</span></p>
+</div>
 
-      <div id="admin-panel" style="display:none">
-        <h3>لوحة الأدمن</h3>
-        <input type="text" id="search-email" placeholder="ابحث بالـ Email" />
-        <button id="search-btn">بحث</button>
-
-        <h4>إضافة/حذف رصيد</h4>
-        <input type="number" id="amount" placeholder="المبلغ" />
-        <button id="add-btn">إضافة رصيد</button>
-        <button id="remove-btn">خصم رصيد</button>
-
-        <h4>حذف مستخدم</h4>
-        <button id="delete-btn">حذف الحساب</button>
-      </div>
-
-      <button id="logout-btn">تسجيل خروج</button>
-    </div>
+<div id="dashboard" style="display:none;">
+  <div id="card">
+    <img src="images/default.jpg" alt="NFC Logo">
+    <p id="cardName">اسم المستخدم</p>
+    <p id="cardFamily">اسم العائلة</p>
+    <p id="cardBalance">الرصيد: 0</p>
   </div>
-  <script type="module" src="app.js"></script>
+  <button id="logoutBtn">تسجيل خروج</button>
+
+  <div id="adminPanel" style="display:none;">
+    <h3>لوحة الأدمن</h3>
+    <input id="searchUser" type="text" placeholder="بحث عن مستخدم">
+    <button id="searchBtn">بحث</button>
+    <input id="amount" type="number" placeholder="المبلغ">
+    <button id="addBtn">إضافة رصيد</button>
+    <button id="removeBtn">خصم رصيد</button>
+    <button id="deleteBtn">حذف المستخدم</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
