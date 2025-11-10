@@ -1,53 +1,33 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  direction: rtl;
+  background-color: #f0f2f5;
   text-align: center;
-}
-
-.container {
-  max-width: 400px;
-  margin: 50px auto;
-  background: #fff;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-input, button {
+input {
   display: block;
-  width: 80%;
   margin: 10px auto;
   padding: 10px;
-  border-radius: 5px;
+  width: 200px;
 }
 
 button {
-  background: #007BFF;
-  color: #fff;
-  border: none;
+  padding: 10px 20px;
+  margin: 10px;
   cursor: pointer;
 }
 
-button:hover {
-  background: #0056b3;
+#card {
+  width: 300px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #f0c27b, #4b1248);
+  color: #fff;
 }
 
-#userCard {
-  border: 1px solid #ddd;
-  padding: 15px;
+#card img {
+  width: 100%;
   border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-#userCard img {
-  width: 100px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-#adminPanel {
-  margin-top: 20px;
-  text-align: center;
 }
