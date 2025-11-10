@@ -7,20 +7,30 @@
 </head>
 <body>
   <div id="app">
-    <h1>Kiropay Dashboard</h1>
+    <h1>Kiropay</h1>
     <div id="login-section">
       <input type="email" id="email" placeholder="Email">
       <input type="password" id="password" placeholder="Password">
-      <button id="loginBtn">Login</button>
+      <button id="loginBtn">تسجيل الدخول</button>
     </div>
+
     <div id="user-section" style="display:none;">
-      <h2>Welcome, <span id="userName"></span></h2>
+      <h2>مرحبا، <span id="userName"></span></h2>
       <div class="card">
+        <img src="images/default.jpg" alt="Visa Card" id="cardImage">
         <p id="cardName">Name</p>
         <p id="cardFamily">Family Name</p>
         <p id="cardBalance">Balance: 100</p>
       </div>
-      <button id="logoutBtn">Logout</button>
+      <div id="admin-section" style="display:none;">
+        <input type="text" id="searchName" placeholder="Search user">
+        <button id="searchBtn">بحث</button>
+        <input type="number" id="balanceAmount" placeholder="Amount">
+        <button id="addBalanceBtn">إضافة رصيد</button>
+        <button id="removeBalanceBtn">حذف رصيد</button>
+        <button id="deleteUserBtn">حذف مستخدم</button>
+      </div>
+      <button id="logoutBtn">تسجيل الخروج</button>
     </div>
   </div>
   <script src="app.js"></script>
