@@ -1,38 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kiropay</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="login-form">
-    <h2>تسجيل دخول</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button id="login-btn">تسجيل دخول</button>
-  </div>
+  <div class="container">
+    <h1>Kiropay</h1>
 
-  <div id="signup-form">
-    <h2>إنشاء حساب</h2>
-    <input type="text" id="name" placeholder="الاسم الأول">
-    <input type="text" id="family" placeholder="اسم العائلة">
-    <input type="email" id="signup-email" placeholder="Email">
-    <input type="password" id="signup-password" placeholder="Password">
-    <input type="file" id="image">
-    <button id="signup-btn">إنشاء حساب</button>
-  </div>
-
-  <div id="dashboard">
-    <div id="card">
-      <img id="card-image" src="images/default.jpg" alt="Card">
-      <h3 id="card-name"></h3>
-      <h4 id="card-family"></h4>
-      <p id="balance">الرصيد: </p>
+    <!-- Login / Signup Form -->
+    <div id="auth-section">
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <input type="text" id="name" placeholder="Name">
+      <input type="text" id="family_name" placeholder="Family Name">
+      <button id="signup-btn">إنشاء حساب</button>
+      <button id="login-btn">تسجيل دخول</button>
     </div>
-    <button id="logout-btn">تسجيل خروج</button>
-  </div>
 
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+      <div class="card">
+        <img id="card-img" src="images/default.jpg" alt="User Image">
+        <h2 id="user-name">Name</h2>
+        <h3 id="user-family">Family</h3>
+        <p>الرصيد: <span id="user-balance">0</span></p>
+      </div>
+
+      <button id="logout-btn">تسجيل خروج</button>
+
+      <!-- Admin controls -->
+      <div id="admin-section" class="hidden">
+        <h3>Admin Panel</h3>
+        <input type="number" id="amount" placeholder="Amount">
+        <input type="number" id="userId" placeholder="User ID">
+        <button id="add-balance-btn">إضافة رصيد</button>
+        <button id="remove-balance-btn">خصم رصيد</button>
+        <button id="delete-user-btn">حذف مستخدم</button>
+      </div>
+    </div>
+  </div>
+  
   <script src="app.js"></script>
 </body>
 </html>
