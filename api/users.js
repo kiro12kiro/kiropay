@@ -6,38 +6,26 @@ const pool = new Pool({
 
 export default async function handler(req, res) {
   const { method } = req;
-
   try {
-    if (method === "GET") {
-      const result = await pool.query("SELECT * FROM users ORDER BY id ASC");
-      return res.status(200).json(result.rows);
-    }
+    if (method === "POST") {
+      const { action, email, password, name, family } = req.body;
 
-    if (method === "POST" && req.body.action === "create") {
-      const { name, family, email, password, balance } = req.body;
-      await pool.query(
-        "INSERT INTO users (name, family, email, password, balance, isAdmin) VALUES ($1,$2,$3,$4,$5,false) ON CONFLICT (email) DO NOTHING",
-        [name, family, email, password, balance]
-      );
-      return res.status(200).json({ message: "تم إنشاء الحساب" });
-    }
+      if (action === "login") {
+        const result = await pool.query("SELECT * FROM users WHERE email=$1 AND password=$2", [email, password]);
+        if (result.rows.length) {
+          return res.status(200).json({ success: true, user: result.rows[0] });
+        } else {
+          return res.status(200).json({ success: false, message: "البريد الإلكتروني أو كلمة المرور خاطئة" });
+        }
+      }
 
-    if (method === "POST" && req.body.action === "add") {
-      const { userId, amount } = req.body;
-      await pool.query("UPDATE users SET balance = balance + $1 WHERE id = $2", [amount, userId]);
-      return res.status(200).json({ message: "تم إضافة الرصيد" });
-    }
-
-    if (method === "POST" && req.body.action === "remove") {
-      const { userId, amount } = req.body;
-      await pool.query("UPDATE users SET balance = balance - $1 WHERE id = $2", [amount, userId]);
-      return res.status(200).json({ message: "تم خصم الرصيد" });
-    }
-
-    if (method === "DELETE") {
-      const { id } = req.query;
-      await pool.query("DELETE FROM users WHERE id=$1", [id]);
-      return res.status(200).json({ message: "تم حذف المستخدم" });
+      if (action === "create") {
+        await pool.query(
+          "INSERT INTO users (name, family, email, password, balance, isAdmin) VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT (email) DO NOTHING",
+          [name, family, email, password, 100, false]
+        );
+        return res.status(200).json({ success: true });
+      }
     }
 
     return res.status(405).json({ message: "Method not allowed" });
