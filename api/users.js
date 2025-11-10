@@ -7,38 +7,38 @@ const pool = new Pool({
 
 export default async function handler(req, res) {
   const { method } = req;
-
   try {
     if (method === "GET") {
       const result = await pool.query("SELECT * FROM users ORDER BY id ASC");
       return res.status(200).json(result.rows);
     }
 
-    if (method === "POST" && req.body.action === "create") {
-      const { name, familyName, email, balance } = req.body;
-      await pool.query(
-        "INSERT INTO users (name, family_name, email, balance) VALUES ($1, $2, $3, $4)",
-        [name, familyName, email, balance]
-      );
-      return res.status(200).json({ message: "User created" });
-    }
+    if (method === "POST") {
+      const { action, userId, name, familyName, email, balance, amount } = req.body;
 
-    if (method === "POST" && req.body.action === "add") {
-      const { userId, amount } = req.body;
-      await pool.query("UPDATE users SET balance = balance + $1 WHERE id = $2", [
-        amount,
-        userId,
-      ]);
-      return res.status(200).json({ message: "Balance added" });
-    }
+      if (action === "create") {
+        await pool.query(
+          "INSERT INTO users (name, family_name, email, balance) VALUES ($1, $2, $3, $4)",
+          [name, familyName, email, balance]
+        );
+        return res.status(200).json({ message: "User created" });
+      }
 
-    if (method === "POST" && req.body.action === "remove") {
-      const { userId, amount } = req.body;
-      await pool.query("UPDATE users SET balance = balance - $1 WHERE id = $2", [
-        amount,
-        userId,
-      ]);
-      return res.status(200).json({ message: "Balance removed" });
+      if (action === "add") {
+        await pool.query("UPDATE users SET balance = balance + $1 WHERE id = $2", [
+          amount,
+          userId,
+        ]);
+        return res.status(200).json({ message: "Balance added" });
+      }
+
+      if (action === "remove") {
+        await pool.query("UPDATE users SET balance = balance - $1 WHERE id = $2", [
+          amount,
+          userId,
+        ]);
+        return res.status(200).json({ message: "Balance removed" });
+      }
     }
 
     if (method === "DELETE") {
