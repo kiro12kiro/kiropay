@@ -6,39 +6,25 @@ const pool = new Pool({
 
 export default async function handler(req, res) {
   const { method } = req;
+  const { email, password, action, name, family } = req.body || {};
 
   try {
     if (method === "GET") {
-      const result = await pool.query("SELECT * FROM users ORDER BY id ASC");
+      const queryEmail = req.query.email;
+      const queryPassword = req.query.password;
+      const result = await pool.query(
+        "SELECT * FROM users WHERE email=$1 AND password=$2",
+        [queryEmail, queryPassword]
+      );
       return res.status(200).json(result.rows);
     }
 
-    if (method === "POST") {
-      const { action, userId, name, balance } = req.body;
-
-      if (action === "create") {
-        await pool.query("INSERT INTO users (name, family, email, password, balance, isAdmin) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (email) DO NOTHING",
-          [name, "Family", "user@example.com", "password123", balance || 0, false]);
-        return res.status(200).json({ message: "User created" });
-      }
-
-      if (action === "add") {
-        await pool.query("UPDATE users SET balance = balance + $1 WHERE id = $2", [balance, userId]);
-        return res.status(200).json({ message: "Balance added" });
-      }
-
-      if (action === "remove") {
-        await pool.query("UPDATE users SET balance = balance - $1 WHERE id = $2", [balance, userId]);
-        return res.status(200).json({ message: "Balance removed" });
-      }
-
-      return res.status(400).json({ message: "Action not specified or invalid" });
-    }
-
-    if (method === "DELETE") {
-      const { id } = req.query;
-      await pool.query("DELETE FROM users WHERE id = $1", [id]);
-      return res.status(200).json({ message: "User deleted" });
+    if (method === "POST" && action === "create") {
+      await pool.query(
+        "INSERT INTO users (name, family, email, password, balance, isAdmin) VALUES ($1,$2,$3,$4,0,false) ON CONFLICT (email) DO NOTHING",
+        [name, family, email, password]
+      );
+      return res.status(200).json({ message: "تم إنشاء الحساب بنجاح" });
     }
 
     return res.status(405).json({ message: "Method not allowed" });
