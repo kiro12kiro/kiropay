@@ -28,6 +28,8 @@ let currentUser = null;
 
 // Signup
 signupBtn.onclick = async () => {
+  if (!emailInput.value || !passwordInput.value) return alert("البريد وكلمة المرور مطلوبين!");
+
   const res = await fetch(apiUrl + "/create", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -35,6 +37,7 @@ signupBtn.onclick = async () => {
       name: nameInput.value,
       family_name: familyInput.value,
       email: emailInput.value,
+      password: passwordInput.value,
       balance: 0,
       isAdmin: false
     })
@@ -45,11 +48,13 @@ signupBtn.onclick = async () => {
 
 // Login
 loginBtn.onclick = async () => {
+  if (!emailInput.value || !passwordInput.value) return alert("البريد وكلمة المرور مطلوبين!");
+  
   const res = await fetch(apiUrl);
   const users = await res.json();
-  const user = users.find(u => u.email === emailInput.value);
+  const user = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
 
-  if (!user) return alert("المستخدم غير موجود!");
+  if (!user) return alert("المستخدم غير موجود أو كلمة المرور خاطئة!");
   
   currentUser = user;
   authSection.classList.add("hidden");
@@ -70,43 +75,32 @@ logoutBtn.onclick = () => {
   authSection.classList.remove("hidden");
 };
 
-// Admin: add balance
+// Admin actions
 addBalanceBtn.onclick = async () => {
+  if (!currentUser || !currentUser.is_admin) return;
   const res = await fetch(apiUrl + "/add", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      userId: userIdInput.value,
-      amount: Number(amountInput.value),
-      adminEmail: currentUser.email
-    })
+    body: JSON.stringify({ userId: userIdInput.value, amount: Number(amountInput.value) })
   });
   const data = await res.json();
   alert(data.message);
 };
 
-// Admin: remove balance
 removeBalanceBtn.onclick = async () => {
+  if (!currentUser || !currentUser.is_admin) return;
   const res = await fetch(apiUrl + "/remove", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      userId: userIdInput.value,
-      amount: Number(amountInput.value),
-      adminEmail: currentUser.email
-    })
+    body: JSON.stringify({ userId: userIdInput.value, amount: Number(amountInput.value) })
   });
   const data = await res.json();
   alert(data.message);
 };
 
-// Admin: delete user
 deleteUserBtn.onclick = async () => {
-  const res = await fetch(`${apiUrl}/delete/${userIdInput.value}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ adminEmail: currentUser.email })
-  });
+  if (!currentUser || !currentUser.is_admin) return;
+  const res = await fetch(`${apiUrl}/delete/${userIdInput.value}`, { method: "DELETE" });
   const data = await res.json();
   alert(data.message);
 };
