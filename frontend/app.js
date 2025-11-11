@@ -1,61 +1,43 @@
-const API_URL = "/api/users";
+const loginForm = document.getElementById("login-form");
+const signupForm = document.getElementById("signup-form");
+const messageDiv = document.getElementById("message");
+const userName = document.getElementById("user-name");
+const userFamily = document.getElementById("user-family");
+const userBalance = document.getElementById("user-balance");
 
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const loginBtn = document.getElementById("loginBtn");
-const signupBtn = document.getElementById("signupBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-
-const authDiv = document.getElementById("auth");
-const userPanel = document.getElementById("userPanel");
-
-const userNameEl = document.getElementById("userName");
-const userFamilyEl = document.getElementById("userFamily");
-const balanceEl = document.getElementById("balance");
-
-let currentUser = null;
-
-loginBtn.addEventListener("click", async () => {
-  const email = emailInput.value;
-  const password = passwordInput.value;
-  if (!email || !password) return alert("الرجاء إدخال البريد وكلمة المرور");
-
-  const res = await fetch(API_URL, {
+// Login
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const res = await fetch("/api/users/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "login", email, password })
+    body: JSON.stringify({ email, password }),
   });
   const data = await res.json();
-  if (data.success) showUser(data.user);
-  else alert(data.message);
+  if (data.error) {
+    messageDiv.innerText = data.error;
+  } else {
+    messageDiv.innerText = data.message;
+    userName.innerText = `Name: ${data.user.name}`;
+    userFamily.innerText = `Family: ${data.user.family}`;
+    userBalance.innerText = `Balance: ${data.user.balance}`;
+  }
 });
 
-signupBtn.addEventListener("click", async () => {
-  const email = emailInput.value;
-  const password = passwordInput.value;
-  if (!email || !password) return alert("الرجاء إدخال البريد وكلمة المرور");
-
-  const res = await fetch(API_URL, {
+// Sign Up
+signupForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const family = document.getElementById("family").value;
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+  const res = await fetch("/api/users/create", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "signup", email, password })
+    body: JSON.stringify({ name, family, email, password }),
   });
   const data = await res.json();
-  if (data.success) showUser(data.user);
-  else alert(data.message);
+  messageDiv.innerText = data.message || data.error;
 });
-
-logoutBtn.addEventListener("click", () => {
-  currentUser = null;
-  userPanel.style.display = "none";
-  authDiv.style.display = "block";
-});
-
-function showUser(user) {
-  currentUser = user;
-  userNameEl.textContent = user.name;
-  userFamilyEl.textContent = user.family;
-  balanceEl.textContent = user.balance;
-  authDiv.style.display = "none";
-  userPanel.style.display = "block";
-}
